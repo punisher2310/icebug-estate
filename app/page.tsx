@@ -1,172 +1,128 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { MoveRight, Zap, Target, Star, Dumbbell, MapPin, Calculator, Brain, Scale, FlaskConical, Quote } from "lucide-react";
-import Image from "next/image";
-
-// Pre-loading state component
-const PreLoader = () => (
-  <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="fixed inset-0 z-[100] bg-neutral-950 flex flex-col items-center justify-center p-10">
-    <Dumbbell className="w-20 h-20 text-white mb-6 animate-pulse" />
-    <motion.h1 animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1 }} className="text-4xl font-extrabold text-white tracking-tighter">BUILDING EMPIRE V7...</motion.h1>
-  </motion.div>
-);
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { MoveRight, Zap, Dumbbell, Brain, FlaskConical, Quote, CheckCircle2 } from "lucide-react";
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isMounted, setIsMounted] = useState(false);
-  const [showPassForm, setShowPassForm] = useState(false);
-  const [formName, setFormName] = useState("");
-  const [formPhone, setFormPhone] = useState("");
-
-  useEffect(() => {
-    setIsMounted(true);
-    // Dynamic import for smooth scroll
-    const initSmoothScroll = async () => {
-        const mod = await import('smooth-scroller');
-        const SmoothScroller = mod.default;
-        if(containerRef.current) {
-            new SmoothScroller({
-                wrapper: containerRef.current,
-                smooth: true,
-                smoothTouch: true,
-                inertia: 0.8
-            });
-        }
-    };
-    initSmoothScroll();
-  }, []);
-
-  const stats = [
-    { title: "Personalised Nutrition", value: "Elite" },
-    { title: "Transformation Rate", value: "93%" },
-    { title: "Expert Coaching", value: "Premium" },
-    { title: "Client Satisfaction", value: "97%" }
-  ];
-
-  const corePillars = [
-    { name: "Mindset", icon: Brain, desc: "evidence-based systems for core mindset" },
-    { name: "Metabolic", icon: FlaskConical, desc: "physiological and metabolic architecture" },
-    { name: "Muscle", icon: Dumbbell, desc: "integrated systems for elite transformations" }
-  ];
-
-  const { scrollYProgress } = useScroll();
-  const scale = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
+  const [showPass, setShowPass] = useState(false);
 
   return (
-    <div ref={containerRef} className="overflow-hidden bg-neutral-950">
-      <AnimatePresence>
-        {!isMounted && <PreLoader />}
-      </AnimatePresence>
-
-      {/* 🚀 Premium Navigation Bar (Figma style) */}
-      <motion.header initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1 }} className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-6 glass-card mt-4 mx-6 rounded-full">
+    <main className="bg-black text-white selection:bg-white selection:text-black">
+      
+      {/* 🧭 PREMIUM NAV (Photo Style) */}
+      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-8 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex items-center gap-2">
-          <Dumbbell className="w-8 h-8 text-white" />
-          <h1 className="text-2xl font-extrabold text-white tracking-tighter text-glow">IceBug <span className="text-neutral-500 font-medium">Estate</span></h1>
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+            <Dumbbell className="text-black w-6 h-6" />
+          </div>
+          <span className="text-2xl font-[900] tracking-tighter uppercase italic">ICEBUG ESTATE</span>
         </div>
-        <nav className="flex items-center gap-6">
-          {["Home", "About", "Contact"].map((link) => (
-            <a key={link} href="#" className="text-white text-sm font-medium hover:text-neutral-400 transition-colors tracking-tight">{link}</a>
-          ))}
-          <motion.button onClick={() => setShowPassForm(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-white text-neutral-950 px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2">
-            Claim Pass <MoveRight className="w-4 h-4" />
-          </motion.button>
-        </nav>
-      </motion.header>
+        <div className="hidden md:flex gap-10 items-center text-sm font-bold uppercase tracking-widest">
+          <a href="#" className="hover:text-gray-400 transition">Home</a>
+          <a href="#" className="hover:text-gray-400 transition">About</a>
+          <a href="#" className="hover:text-gray-400 transition">Contact</a>
+          <button onClick={() => setShowPass(true)} className="bg-white text-black px-8 py-3 rounded-full hover:invert transition duration-300">
+            CLAIM PASS
+          </button>
+        </div>
+      </nav>
 
-      {/* 🚀 Parallax Video Hero Section (Exact fit for the vibe) */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-            <source src="/gym-hero.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-neutral-950/60" />
-        </div>
+      {/* 🎥 HERO SECTION (Exact FitEon Layout) */}
+      <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+        <video autoPlay loop muted playsInline className="absolute w-full h-full object-cover z-0 brightness-[0.4]">
+          <source src="/gym-hero.mp4" type="video/mp4" />
+        </video>
         
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, duration: 1.5 }} className="relative z-10 text-center px-6">
-          <div className="border border-white/10 rounded-full px-4 py-1.5 inline-flex items-center gap-2 mb-6 bg-white/5 backdrop-blur-sm">
-            <Zap className="w-4 h-4 text-white" />
-            <span className="text-sm font-semibold tracking-tight text-white/90">BEYOND GOD MODE V7: AGENCY REDESIGN</span>
-          </div>
+        <div className="relative z-10 text-center px-4">
+          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="mb-6 inline-block px-4 py-1 border border-white/20 rounded-full text-[10px] tracking-[0.3em] uppercase bg-white/5 backdrop-blur-md">
+            EST. 2026 • KANPUR • ELITE PERFORMANCE
+          </motion.div>
           
-          <h2 className="text-7xl md:text-[140px] font-extrabold text-white tracking-tighter leading-[0.85] text-glow mb-6">
-            Fitness care <br /> for your body <br /> & <span className="text-neutral-500">mind</span>
-          </h2 >
+          <motion.h1 initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="text-[12vw] md:text-[8vw] font-[950] leading-[0.85] tracking-tighter uppercase italic mb-8">
+            FITNESS CARE <br /> <span className="text-outline italic">FOR YOUR</span> <br /> BODY & MIND
+          </motion.h1>
 
-          <p className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">The only place in Kanpur that architecturally designed elite performance for modern clients.</p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="text-gray-400 max-w-xl mx-auto mb-10 text-lg md:text-xl font-medium tracking-tight">
+            Kanpur's exclusive boutique gym architecture designed for high-performance individuals.
+          </motion.p>
 
-          <motion.button onClick={() => setShowPassForm(true)} whileHover={{ scale: 1.05 }} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-full text-lg font-bold flex items-center gap-3 mx-auto">
-            Get Your Pass <MoveRight className="w-6 h-6" />
+          <motion.button whileHover={{ scale: 1.05 }} className="group relative px-12 py-6 bg-white text-black font-black text-xl rounded-full overflow-hidden transition-all">
+            <span className="relative z-10 flex items-center gap-3 uppercase">START TRANSFORMATION <MoveRight /></span>
           </motion.button>
-        </motion.div>
-      </section>
-
-      {/* 🚀 About Section (Upgraded layout with premium stats) */}
-      <section className="relative z-10 px-6 py-32 bg-neutral-950">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid grid-cols-1 lg:grid-cols-5 gap-16 max-w-7xl mx-auto items-center">
-          <div className="lg:col-span-3">
-            <div className="border border-white/10 rounded-full px-4 py-1 inline-block mb-6">
-                <span className="text-sm font-semibold text-neutral-500 uppercase tracking-widest">ABOUT US</span>
-            </div>
-            <h3 className="text-6xl md:text-7xl font-extrabold text-white tracking-tighter mb-6 leading-[0.9]">Your Space to <span className="italic">Move, Improve,</span> and <span className="italic text-neutral-500">Thrive</span></h3>
-            <p className="text-neutral-300 text-xl leading-relaxed max-w-2xl">A private boutique fitness architecture designed for exclusive performance enhancement, beyond standard gyms.</p>
-          </div>
-          <div className="lg:col-span-2 grid grid-cols-2 gap-6">
-            {stats.map((stat, index) => (
-                <motion.div key={stat.title} initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="glass-card p-8 rounded-3xl text-center">
-                    <h4 className="text-neutral-500 text-sm font-semibold tracking-wide uppercase mb-3">{stat.title}</h4>
-                    <p className="text-5xl font-extrabold tracking-tighter text-glow">{stat.value}</p>
-                </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* 🚀 Services Section (Clean Grid Layout from Photos) */}
-      <section className="px-6 py-32 bg-black border-t border-white/5">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} className="text-center max-w-4xl mx-auto mb-20">
-            <h3 className="text-6xl font-extrabold text-white tracking-tighter mb-6 leading-none">The Core <span className="text-neutral-500">Pillars</span> of <br /> Our Architecture</h3>
-            <p className="text-neutral-300 text-lg leading-relaxed">Integrated evidence-based systems to re-engineer core performance.</p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {corePillars.map((pillar, index) => {
-            const Icon = pillar.icon;
-            return (
-              <motion.div key={pillar.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2 }} className="glass-card p-10 rounded-3xl flex flex-col gap-6 items-center text-center">
-                <Icon className="w-16 h-16 text-white p-4 bg-white/5 rounded-full" />
-                <h4 className="text-3xl font-bold tracking-tight text-white">{pillar.name} Architecture</h4>
-                <p className="text-neutral-400 text-base leading-relaxed">{pillar.desc}</p>
-              </motion.div>
-            );
-          })}
         </div>
       </section>
 
-      {/* 🚀 Testimonial - Pacquiao Quote style */}
-      <section className="px-6 py-32 bg-neutral-950 flex items-center justify-center border-b border-white/5">
-        <motion.div initial={{ scale: 0.9, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} className="glass-card p-12 rounded-3xl max-w-4xl flex flex-col md:flex-row items-center gap-10">
-          <Image src="/user1.jpg" alt="Client" width={150} height={150} className="rounded-full border-4 border-white/10" />
-          <div>
-            <Quote className="w-12 h-12 text-white opacity-20 mb-4" />
-            <p className="text-3xl font-extrabold text-white tracking-tighter leading-tight mb-6">"Elite Architecture is the only way to transform. Period. Beyond God Mode."</p>
-            <div className="flex items-center gap-3">
-                <div>
-                    <p className="text-white font-bold text-lg">Manny Pacquiao</p>
-                    <p className="text-neutral-500 text-sm">Professional Athlete</p>
-                </div>
-            </div>
+      {/* 📊 STATS (As per photo 1000254402) */}
+      <section className="grid grid-cols-2 md:grid-cols-4 border-y border-white/10 bg-black">
+        {[
+          { label: "Transformation", val: "93%" },
+          { label: "Elite Coaching", val: "Expert" },
+          { label: "Nutrition", val: "Elite" },
+          { label: "Success Rate", val: "97%" }
+        ].map((s, i) => (
+          <div key={i} className="p-10 border-r border-white/10 flex flex-col items-center justify-center">
+            <span className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-2">{s.label}</span>
+            <span className="text-4xl md:text-5xl font-black italic tracking-tighter">{s.val}</span>
           </div>
-        </motion.div>
+        ))}
       </section>
 
-      {/* 🚀 Footer (Premium Agency Look) */}
-      <footer className="relative z-10 px-6 py-20 bg-black text-center border-t border-white/5">
-        <Dumbbell className="w-16 h-16 text-white mx-auto mb-8 opacity-50" />
-        <h3 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-glow mb-6">Find the perfect fitness journey for <br /> you and unlock <span className="text-neutral-500 tracking-tight">your strongest self with us!</span></h3>
-        <p className="text-neutral-500 text-sm mt-16 tracking-widest uppercase">&copy; 2026 IceBug Estate Elite Fitness Agency. Lucknow-Kanpur Zone.</p>
+      {/* 🧬 THE PILLARS (Photo 1000254404 Style) */}
+      <section className="py-32 px-6 md:px-24">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10">
+          <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">
+            CORE <br /> <span className="text-gray-600">ARCHITECTURE</span>
+          </h2>
+          <p className="text-gray-400 max-w-sm text-right text-lg">
+            We don't just train; we re-engineer your physiology through our three-pillar system.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+          {[
+            { title: "MINDSET", icon: Brain, desc: "Building the psychological resilience of a champion." },
+            { title: "METABOLIC", icon: FlaskConical, desc: "Science-backed nutrition and recovery architecture." },
+            { title: "MUSCLE", icon: Dumbbell, desc: "High-intensity hypertrophy and strength engineering." }
+          ].map((p, i) => (
+            <div key={i} className="glass p-16 flex flex-col items-center text-center group hover:bg-white hover:text-black transition-all duration-500 cursor-pointer">
+              <p.icon className="w-16 h-16 mb-8 stroke-[1]" />
+              <h3 className="text-3xl font-black tracking-tighter italic mb-4 uppercase">{p.title}</h3>
+              <p className="text-sm opacity-60 font-medium leading-relaxed">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 🏆 TESTIMONIAL (Photo Style) */}
+      <section className="py-32 bg-white text-black px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+          <div className="w-64 h-64 bg-gray-200 rounded-2xl rotate-3 overflow-hidden shadow-2xl">
+             <img src="/user1.jpg" alt="Client" className="w-full h-full object-cover" />
+          </div>
+          <div className="flex-1">
+            <Quote className="w-20 h-20 opacity-10 mb-6" />
+            <p className="text-4xl md:text-6xl font-black tracking-tighter italic leading-[0.9] mb-8 uppercase">
+              "This is not a gym. <br /> It's a lab for <br /> <span className="text-gray-400">greatness."</span>
+            </p>
+            <div>
+              <p className="text-2xl font-black italic uppercase">Manny Pacquiao</p>
+              <p className="font-bold text-gray-500 uppercase tracking-widest">Professional Athlete</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🏁 FOOTER */}
+      <footer className="py-20 px-6 text-center border-t border-white/10">
+        <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-10">
+          UNLOCK YOUR <br /> STRONGEST SELF
+        </h2>
+        <div className="flex justify-center gap-4 mb-12">
+            <button onClick={() => setShowPass(true)} className="bg-white text-black px-12 py-5 rounded-full font-black text-lg hover:scale-105 transition">GET TRIAL PASS</button>
+        </div>
+        <p className="text-gray-600 text-xs font-bold tracking-[0.5em] uppercase">© 2026 ICEBUG ESTATE • LUCKNOW-KANPUR ZONE</p>
       </footer>
-    </div>
+
+    </main>
   );
 }
